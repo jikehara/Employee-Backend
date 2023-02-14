@@ -46,7 +46,7 @@ public class EmployeeController {
     @GetMapping("/employees/{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
         Employee employee = employeeRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new ResourceNotFoundException("No employee found for that ID"));
         return ResponseEntity.ok(employee);
     }
 
@@ -58,7 +58,7 @@ public class EmployeeController {
      */
     @PutMapping("/employees/{id}")
     public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
-        Employee employeeToUpdate = employeeRepository.findById(id).orElseThrow();
+        Employee employeeToUpdate = employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No employee found for that ID"));
 
         employeeToUpdate.setFirstName(employee.getFirstName());
         employeeToUpdate.setLastName(employee.getLastName());
